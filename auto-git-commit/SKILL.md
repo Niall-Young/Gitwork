@@ -1,6 +1,6 @@
 ---
 name: auto-git-commit
-description: "在 Codex 中为绑定了用户所选项目文件夹的软件开发任务自动完成 Git 收尾：任务实际创建、修改、重命名或删除项目文件并验证后，在项目根目录初始化 Git（缺失时使用 main），只提交本次任务变更，并使用 feat、fix、chore 等类型加中文说明。用于所有带项目文件夹且会产生文件改动的代码任务；不要用于未绑定文件夹的最近聊天、纯问答、规划、评审或没有项目文件变化的任务。"
+description: "在 Codex 中为绑定了用户所选项目文件夹的软件开发任务自动完成 Git 收尾：任务实际创建、修改、重命名或删除项目文件并验证后，在项目根目录初始化 Git（缺失时使用 main），提交前审查本轮文件、将无需提交的生成物最小化加入 .gitignore，只提交本次任务变更，并使用 feat、fix、chore 等类型加中文说明。用于所有带项目文件夹且会产生文件改动的代码任务；不要用于未绑定文件夹的最近聊天、纯问答、规划、评审或没有项目文件变化的任务。"
 ---
 
 # Codex Project Auto Git Commit
@@ -34,15 +34,28 @@ For a newly initialized repository with existing files:
 4. Inspect the staged names and diff, then commit `chore: 初始化 Git 仓库` when committable files exist. Do not create an empty baseline commit.
 5. If Git identity, hooks, or another Git error prevents the baseline commit, do not bypass it or invent identity values. Continue the requested work when safe, but report that automatic committing is blocked.
 
+## Review task-created artifacts
+
+Perform this review after implementation and verification and before staging a task commit:
+
+1. Build a complete inventory of paths created, modified, renamed, or deleted by the current task. Compare task activity with the recorded baseline and inspect the final status with untracked paths expanded. Include task-created paths that an existing ignore rule already hides. Do not treat files that were already untracked or dirty at baseline as task-owned.
+2. Classify every task-owned path as either a required project change or a local-only artifact. Treat test packages, build output, dependency directories, caches, logs, temporary files, editor state, and plugin working files as local-only unless the user request or established repository convention explicitly requires them to be versioned.
+3. For each task-created, untracked local-only artifact, first run `git check-ignore -v -- <path>`. When an existing rule matches, keep that rule unchanged and do not add a duplicate.
+4. When no rule matches, minimally append a rule to the project-root `.gitignore`. Preserve all existing content and user edits. Use a root-anchored exact path for a single artifact or an uncertain classification; use a directory-level rule only when the directory is a confirmed conventional output location for the detected tool. Never add a broad wildcard that could hide source files.
+5. Run `git check-ignore -v -- <path>` again for every new rule and confirm that it matches the intended artifact. Keep the ignored artifact on disk; do not delete it.
+6. Treat only the lines added to `.gitignore` by this task as task-owned. Include those lines in the task commit. If `.gitignore` was dirty at baseline, stage only clearly separable task lines; if they cannot be isolated safely, do not create the task commit and explain why.
+7. When a local-only artifact was already tracked at baseline, do not add an ineffective ignore rule, run `git rm --cached`, or stage its task-time modification. Leave it tracked, report it as an uncommitted issue, and let the user decide whether to change the repository policy.
+8. Repeat the candidate-path review after updating `.gitignore`. Confirm that every task-created path is either selected for the commit, demonstrably ignored, or explicitly reported as an already tracked artifact.
+
 ## Finish and isolate task changes
 
 Complete the requested implementation and its proportionate verification before committing.
 
 1. Compare the final state with the recorded baseline. If the task produced no project-file changes, do not create a commit.
-2. Select only files and hunks produced by the current task. Exclude unrelated user changes and generated or ignored artifacts. Do not use `git add .` or `git add -A` for a task commit.
+2. Select only required project files, task-owned hunks, and task-owned `.gitignore` additions identified by the artifact review. Exclude unrelated user changes and all local-only artifacts. Do not use `git add .` or `git add -A` for a task commit.
 3. When a task touches a file that was already dirty, stage only clearly separable task hunks. If any required task change cannot be separated reliably, do not create an incomplete or mixed commit; leave the task changes uncommitted and explain the conflict.
 4. Preserve unrelated staged entries. When unrelated content is already staged and the task paths are wholly task-owned, use a path-limited commit such as `git commit --only ... -- <task-paths>` so the existing index content is not included.
-5. Inspect task-scoped staged names, `git diff --cached --check`, the diff stat, and the actual diff. Confirm that the commit contains the complete task and nothing else.
+5. Inspect task-scoped staged names, `git diff --cached --check`, the diff stat, and the actual diff. Confirm that the commit contains the complete task and its required ignore rules, contains no local-only artifact, and includes nothing else.
 
 ## Write the commit message
 
@@ -70,6 +83,6 @@ After a successful commit:
 
 1. Read the short commit hash and subject from `HEAD`.
 2. Run `git status --short` and distinguish remaining user changes from task leftovers.
-3. Report the hash, commit subject, verification performed, and any remaining uncommitted changes.
+3. Report the hash, commit subject, verification performed, ignore rules added or reused for task-created artifacts, any tracked artifacts left uncommitted, and any other remaining uncommitted changes.
 
 If no commit was created, state the exact reason. Never claim success from `git commit` output without verifying `HEAD`.
