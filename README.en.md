@@ -6,7 +6,7 @@ A Git finishing skill for Codex. After a project-based development task is imple
 
 ## What it does
 
-`gitwork` applies to software-development tasks that are attached to a selected project folder and create, modify, rename, or delete files. It will:
+`gitwork` is a mandatory Git finishing gate for every implementation task in the currently selected project folder. It should trigger whenever a task creates, modifies, renames, or deletes project files, even when the user never mentions Git or commits; this includes new projects in empty or non-Git folders and small tasks such as a single HTML page, script, demo, or prototype. It will:
 
 - Confirm the project root explicitly selected in Codex instead of guessing from the terminal path.
 - Initialize Git with `main` when the selected project has no repository, after reviewing the existing files for safety.
