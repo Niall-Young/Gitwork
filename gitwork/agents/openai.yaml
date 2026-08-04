@@ -1,6 +1,6 @@
 interface:
   display_name: "Gitwork"
   short_description: "为所选文件夹内所有项目文件改动强制执行安全 Git 收尾"
-  default_prompt: "使用 $gitwork 作为所有项目文件改动的强制 Git 收尾流程；无论前端、后端或其他技术栈、项目类型和规模，只要当前任务会在所选文件夹产生文件改动就要触发。"
+  default_prompt: "使用 $gitwork 作为实际项目文件改动的强制 Git 收尾流程；桌面端自动创建在 ~/Documents/Codex/日期/聊天名称 下的独立聊天目录默认跳过，除非我显式要求 Git。"
 policy:
   allow_implicit_invocation: true

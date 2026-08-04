@@ -6,16 +6,18 @@ A Git finishing skill for Codex. After a project-based development task is imple
 
 ## What it does
 
-`gitwork` is a mandatory Git finishing gate for every implementation task in the current user-selected workspace folder. It does not decide whether the folder already “looks like a project”: regardless of technology stack, project type, size, existing contents, or Git status, it should trigger whenever a task is expected to create, modify, rename, or delete files there, even when the user never mentions Git or commits. It applies both to new projects in empty or non-Git folders and to existing projects; frontend pages, backend services, full-stack apps, CLIs, libraries, scripts, demos, and prototypes are non-exhaustive examples only. It will:
+`gitwork` is a mandatory Git finishing gate for every implementation task in an actual project context. Regardless of technology stack, project type, size, existing contents, or Git status, it should trigger whenever a task is expected to create, modify, rename, or delete files in a desktop local project, CLI session directory, or IDE workspace, even when the user never mentions Git or commits. Empty and non-Git folders can still be projects; frontend, backend, CLI, library, script, demo, and prototype work are non-exhaustive examples only.
 
-- Confirm the project root explicitly selected in Codex instead of guessing from the terminal path.
+Desktop standalone chats also have folders, but their automatic workspaces live under `~/Documents/Codex/YYYY-MM-DD/<chat-name>`. Those directories do not implicitly trigger `gitwork`; they opt in only when the user explicitly invokes `$gitwork` or requests Git operations for that chat folder. It will:
+
+- Confirm the runtime project root for the current surface: the desktop local project's primary folder, or the CLI/IDE session directory or open workspace, without guessing another path.
 - Initialize Git with `main` when the selected project has no repository, after reviewing the existing files for safety.
 - Record the Git state before work begins and preserve existing staged or uncommitted changes.
 - Stage and commit only the changes produced by the current task after implementation and verification.
 - Write commit subjects as `<type>: <Chinese description>`, such as `fix: 修复登录状态丢失问题`.
 - Skip the automatic commit and explain why when the task changes cannot be isolated safely.
 
-It does not run for Q&A, planning, reviews, tasks with no file changes, or chats without an explicitly selected project folder. It also does not push, rewrite history, bypass Git hooks, or mix unrelated changes into a commit.
+It does not run for Q&A, planning, reviews, tasks with no file changes, or default desktop standalone-chat directories. It also does not push, rewrite history, bypass Git hooks, or mix unrelated changes into a commit.
 
 ## Installation
 
@@ -60,7 +62,7 @@ When finished, Codex reports the commit hash and subject, the verification perfo
 
 ## Workflow
 
-1. Confirm the user-selected project root and check for an in-progress Git operation.
+1. Confirm the runtime project root for the current surface, exclude default standalone-chat directories, and check for an in-progress Git operation.
 2. Record the branch, index, unstaged changes, and untracked files as the task baseline.
 3. Complete the requested development work and verify it appropriately.
 4. Compare against the baseline and select only task-owned files or hunks.

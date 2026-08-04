@@ -1,6 +1,6 @@
 ---
 name: gitwork
-description: "Mandatory Git completion gate for every Codex implementation task in a user-selected workspace folder explicitly supplied by the runtime. Always trigger when the task is expected to create, modify, rename, or delete files there, regardless of stack, type, size, contents, or Git status, even if the user never mentions Git. This includes starting any frontend, backend, app, service, CLI, library, script, demo, prototype, or one-off page in an empty or non-Git folder, and changing any existing project; the examples are not exhaustive. Treat the selected folder itself as the project root; never infer one from shell CWD or Codex temporary/internal folders. After verification, safely initialize or use Git there, review artifacts and minimal .gitignore rules, establish a baseline when required, and commit only isolated task changes. Skip only if no user-selected workspace folder is supplied, the user opts out of Git operations, or the task is read-only with no file changes."
+description: "Mandatory Git completion gate for every Codex implementation task in an actual project context. Always trigger when the task is expected to change files in a desktop local-project folder, CLI session directory, or IDE workspace, regardless of stack, type, size, contents, or Git status, even if the user never mentions Git. Do not implicitly trigger in desktop standalone-chat workspaces under ~/Documents/Codex/YYYY-MM-DD/chat-name; those folders are not selected local projects. Explicit $gitwork invocation or a request for Git opts them in. Use only the runtime-provided root, never a guessed ancestor, descendant, conversation path, or Codex temporary/internal folder. After verification, safely initialize or use Git, review artifacts and minimal .gitignore rules, establish a baseline when required, and commit only isolated task changes. Also skip when the user opts out of Git operations or the task is read-only."
 ---
 
 # Gitwork
@@ -11,10 +11,12 @@ Run this workflow around every qualifying task. Treat safe ownership of the comm
 
 Perform this gate before running any Git command:
 
-1. Confirm that the Codex runtime explicitly supplies a user-selected project/workspace folder. Do not infer a project from the shell working directory, code in the conversation, or generated temporary files.
-2. Ignore Codex-managed internal locations such as `~/.codex/visualizations`. If there is no unambiguous user-selected project folder, stop this workflow without running `git init`, `git add`, or `git commit`.
-3. Use the selected folder itself as the only project root. Do not inherit a Git repository above it, search for repositories below it, or operate on paths outside it.
-4. Continue only when the task will create, modify, rename, or delete files inside that root. Skip read-only, explanation, research, planning, and review tasks.
+1. Confirm that the current Codex runtime supplies the active root and identify the surface. For a desktop local project, use its primary folder. For CLI or IDE, use the session directory or open workspace. Do not judge by whether the folder already contains code, manifests, or Git metadata.
+2. Detect a Codex desktop standalone-chat root by its canonical auto-created path `~/Documents/Codex/<YYYY-MM-DD>/<chat-name>`. Do not implicitly run this workflow there, even though the chat has a writable workspace folder. Continue only when the user explicitly invokes `$gitwork` or explicitly requests Git operations for that chat folder.
+3. Ignore other Codex-managed temporary or internal locations such as `~/.codex/visualizations`. Do not infer a root from conversation content or arbitrary shell paths. In a multi-root workspace, use the runtime-designated primary/current root; do not guess among roots. If there is no unambiguous qualifying root, stop this workflow without running `git init`, `git add`, or `git commit`.
+4. Reject a filesystem root, the user's home directory, `~/Documents/Codex`, a date container directly below it, or another similarly broad location. Ask the user to open or select a narrower project folder instead of initializing Git in a broad root.
+5. Use the qualifying root itself as the only project root. Do not inherit a Git repository above it, search for repositories below it, or operate on paths outside it.
+6. Continue only when the task will create, modify, rename, or delete files inside that root. Skip read-only, explanation, research, planning, and review tasks.
 
 ## Establish the baseline
 
