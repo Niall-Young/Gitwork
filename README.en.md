@@ -1,4 +1,4 @@
-# auto-git-commit
+# gitwork
 
 [简体中文](README.md) | [English](README.en.md)
 
@@ -6,7 +6,7 @@ A Git finishing skill for Codex. After a project-based development task is imple
 
 ## What it does
 
-`auto-git-commit` applies to software-development tasks that are attached to a selected project folder and create, modify, rename, or delete files. It will:
+`gitwork` applies to software-development tasks that are attached to a selected project folder and create, modify, rename, or delete files. It will:
 
 - Confirm the project root explicitly selected in Codex instead of guessing from the terminal path.
 - Initialize Git with `main` when the selected project has no repository, after reviewing the existing files for safety.
@@ -24,13 +24,13 @@ It does not run for Q&A, planning, reviews, tasks with no file changes, or chats
 Open this repository as a project in Codex, then paste this sentence directly into the chat:
 
 ```text
-Install the auto-git-commit skill from the current project: copy ./auto-git-commit to ~/.codex/skills/auto-git-commit, verify that SKILL.md and agents/openai.yaml are intact, and remind me to restart Codex when finished.
+Install the gitwork skill from the current project: copy ./gitwork to ~/.codex/skills/gitwork, verify that SKILL.md and agents/openai.yaml are intact, and remind me to restart Codex when finished.
 ```
 
 You can also ask the AI to install directly from GitHub without downloading the repository first:
 
 ```text
-Use skill-installer to install auto-git-commit from https://github.com/Niall-Young/Gitwork/tree/main/auto-git-commit, then remind me to restart Codex.
+Use skill-installer to install gitwork from https://github.com/Niall-Young/Gitwork/tree/main/gitwork, then remind me to restart Codex.
 ```
 
 ### Manual installation
@@ -39,10 +39,10 @@ Run these commands from the repository root:
 
 ```bash
 mkdir -p ~/.codex/skills
-cp -R ./auto-git-commit ~/.codex/skills/auto-git-commit
+cp -R ./gitwork ~/.codex/skills/gitwork
 ```
 
-If you use a custom `CODEX_HOME`, change the destination to `$CODEX_HOME/skills/auto-git-commit`.
+If you use a custom `CODEX_HOME`, change the destination to `$CODEX_HOME/skills/gitwork`.
 
 Restart Codex after installation so it can discover the new skill.
 
@@ -53,7 +53,7 @@ Implicit invocation is enabled. Once installed, use Codex normally for a develop
 You can also invoke it explicitly:
 
 ```text
-Use $auto-git-commit to complete this project task and commit only the changes produced by this task.
+Use $gitwork to complete this project task and commit only the changes produced by this task.
 ```
 
 When finished, Codex reports the commit hash and subject, the verification performed, and any uncommitted changes that remain in the repository.
@@ -79,7 +79,7 @@ When finished, Codex reports the commit hash and subject, the verification perfo
 
 ```text
 .
-├── auto-git-commit/
+├── gitwork/
 │   ├── SKILL.md             # Trigger conditions, Git safety rules, and workflow
 │   └── agents/openai.yaml   # Codex metadata and default prompt
 ├── AGENTS.md                # Development and validation guidance

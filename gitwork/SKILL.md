@@ -1,9 +1,9 @@
 ---
-name: auto-git-commit
+name: gitwork
 description: "在 Codex 中为绑定了用户所选项目文件夹的软件开发任务自动完成 Git 收尾：任务实际创建、修改、重命名或删除项目文件并验证后，在项目根目录初始化 Git（缺失时使用 main），提交前审查本轮文件、将无需提交的生成物最小化加入 .gitignore，只提交本次任务变更，并使用 feat、fix、chore 等类型加中文说明。用于所有带项目文件夹且会产生文件改动的代码任务；不要用于未绑定文件夹的最近聊天、纯问答、规划、评审或没有项目文件变化的任务。"
 ---
 
-# Codex Project Auto Git Commit
+# Gitwork
 
 Run this workflow around every qualifying task. Treat safe ownership of the commit as more important than forcing a commit.
 

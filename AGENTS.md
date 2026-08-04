@@ -2,12 +2,12 @@
 
 ## Project overview
 
-This repository contains `auto-git-commit`, a Codex skill that safely finishes project-based coding tasks with an isolated Git commit. The skill is intentionally conservative: it must protect existing user changes, avoid operating outside the explicitly selected project root, and prefer skipping a commit over creating an unsafe or mixed one.
+This repository contains `gitwork`, a Codex skill that safely finishes project-based coding tasks with an isolated Git commit. The skill is intentionally conservative: it must protect existing user changes, avoid operating outside the explicitly selected project root, and prefer skipping a commit over creating an unsafe or mixed one.
 
 ## Repository layout
 
-- `auto-git-commit/SKILL.md` is the source of truth for trigger conditions, Git safety rules, the commit workflow, and reporting requirements.
-- `auto-git-commit/agents/openai.yaml` contains the user-facing skill metadata and enables implicit invocation.
+- `gitwork/SKILL.md` is the source of truth for trigger conditions, Git safety rules, the commit workflow, and reporting requirements.
+- `gitwork/agents/openai.yaml` contains the user-facing skill metadata and enables implicit invocation.
 
 Keep the package small. Do not add scripts, dependencies, examples, or extra documentation unless they make the skill materially safer or easier to maintain.
 
@@ -26,8 +26,8 @@ Keep the package small. Do not add scripts, dependencies, examples, or extra doc
 
 There is no automated test suite. Before finishing a change:
 
-1. Confirm `SKILL.md` still has valid YAML frontmatter with the exact skill name `auto-git-commit`.
-2. Confirm `agents/openai.yaml` is valid YAML and its prompt references `$auto-git-commit`.
+1. Confirm `SKILL.md` still has valid YAML frontmatter with the exact skill name `gitwork`.
+2. Confirm `agents/openai.yaml` is valid YAML and its prompt references `$gitwork`.
 3. Review the workflow against at least these cases: a clean existing repository, a dirty repository with unrelated changes, a newly initialized repository, an unresolved Git operation, and a task that creates no files.
 4. Check that no instruction can stage or commit files outside the selected project root.
 5. Run `git diff --check` and inspect the complete diff.

@@ -1,4 +1,4 @@
-# auto-git-commit
+# gitwork
 
 [简体中文](README.md) | [English](README.en.md)
 
@@ -6,7 +6,7 @@
 
 ## 它有什么用
 
-`auto-git-commit` 适用于已绑定项目文件夹、且会创建、修改、重命名或删除文件的软件开发任务。它会：
+`gitwork` 适用于已绑定项目文件夹、且会创建、修改、重命名或删除文件的软件开发任务。它会：
 
 - 确认 Codex 明确选中的项目根目录，不根据当前终端路径猜测项目。
 - 在项目尚未使用 Git 时，以 `main` 为默认分支初始化仓库，并安全检查已有文件。
@@ -24,13 +24,13 @@
 在 Codex 中打开本仓库作为项目，然后把下面这句话直接复制给 AI：
 
 ```text
-请从当前项目安装 auto-git-commit skill：将 ./auto-git-commit 复制到 ~/.codex/skills/auto-git-commit，确认 SKILL.md 和 agents/openai.yaml 完整，并在完成后提醒我重启 Codex。
+请从当前项目安装 gitwork skill：将 ./gitwork 复制到 ~/.codex/skills/gitwork，确认 SKILL.md 和 agents/openai.yaml 完整，并在完成后提醒我重启 Codex。
 ```
 
 也可以直接让 AI 从 GitHub 安装，无需先下载仓库：
 
 ```text
-请使用 skill-installer 从 https://github.com/Niall-Young/Gitwork/tree/main/auto-git-commit 安装 auto-git-commit，并在完成后提醒我重启 Codex。
+请使用 skill-installer 从 https://github.com/Niall-Young/Gitwork/tree/main/gitwork 安装 gitwork，并在完成后提醒我重启 Codex。
 ```
 
 ### 手动安装
@@ -39,10 +39,10 @@
 
 ```bash
 mkdir -p ~/.codex/skills
-cp -R ./auto-git-commit ~/.codex/skills/auto-git-commit
+cp -R ./gitwork ~/.codex/skills/gitwork
 ```
 
-如果你设置了自定义 `CODEX_HOME`，请将目标目录改为 `$CODEX_HOME/skills/auto-git-commit`。
+如果你设置了自定义 `CODEX_HOME`，请将目标目录改为 `$CODEX_HOME/skills/gitwork`。
 
 安装完成后重启 Codex，以便加载新 skill。
 
@@ -53,7 +53,7 @@ cp -R ./auto-git-commit ~/.codex/skills/auto-git-commit
 也可以显式指定：
 
 ```text
-使用 $auto-git-commit 完成这个项目任务，并只提交本次任务产生的变更。
+使用 $gitwork 完成这个项目任务，并只提交本次任务产生的变更。
 ```
 
 完成后，Codex 会报告提交哈希、提交信息、执行过的验证，以及仓库中仍然存在的未提交改动。
@@ -79,7 +79,7 @@ cp -R ./auto-git-commit ~/.codex/skills/auto-git-commit
 
 ```text
 .
-├── auto-git-commit/
+├── gitwork/
 │   ├── SKILL.md             # 触发条件、Git 安全规则和完整工作流
 │   └── agents/openai.yaml   # Codex 展示信息与默认提示词
 ├── AGENTS.md                # 项目开发与验证约定
