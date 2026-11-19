@@ -2,7 +2,7 @@
 
 [简体中文](README.md) | [English](README.en.md)
 
-A Git finishing skill for Codex. After a project-based development task is implemented and verified, it commits only the changes produced by that task while protecting the user's existing staged and uncommitted work.
+A Git finishing skill for Codex, Claude Code, Antigravity, and other Agent Skills hosts. After a project-based development task is implemented and verified, it commits only the changes produced by that task while protecting the user's existing staged and uncommitted work.
 
 ## What it does
 

@@ -2,7 +2,7 @@
 
 [简体中文](README.md) | [English](README.en.md)
 
-一个为 Codex 准备的 Git 收尾 skill。它会在项目型开发任务完成并验证后，只提交本次任务产生的改动，同时尽力保护用户原有的暂存内容和未提交工作。
+一个面向 Codex、Claude Code、Antigravity 等 Agent Skills 宿主的 Git 收尾 skill。它会在项目型开发任务完成并验证后，只提交本次任务产生的改动，同时尽力保护用户原有的暂存内容和未提交工作。
 
 ## 它有什么用
 
